@@ -259,6 +259,13 @@ def save(filepath: str | Path, *args, encoding: str | None = None, **kwargs):
                      For supported values: see ``codecs`` module.
     :returns: None
     """
+
+    from matplotlib.lines import Line2D
+    from matplotlib.legend import Legend
+    Line2D._us_dashSeq    = property(lambda self: self._dash_pattern[1])
+    Line2D._us_dashOffset = property(lambda self: self._dash_pattern[0])
+    Legend._ncol = property(lambda self: self._ncols)
+
     code = get_tikz_code(*args, filepath=filepath, **kwargs)
     with open(filepath, "w", encoding=encoding) as f:
         f.write(code)
